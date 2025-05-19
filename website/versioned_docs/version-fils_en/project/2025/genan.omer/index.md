@@ -60,7 +60,7 @@ After several attempts using only a slow low-pass filter and a tuned Kalman filt
 
 ## Hardware
 
-![Schematic Diagram](Hardware.webp)
+![Hardware](Hardware.webp)
 
 - **NUCLEO-STM32F767ZI** will serve as the main computational and signal processing unit, and will also function as a transmitter to the computer.
 - **MAX4466** will act as the sensor from which audio signals will be received.
@@ -71,7 +71,7 @@ After several attempts using only a slow low-pass filter and a tuned Kalman filt
 
 ### Schematics
 
-![Schematic Diagram](Schematic.webp)
+![KiCAD Schematic](MicroprocessorsArchitectureSchematic.svg)
 
 ### Bill of Materials
 
