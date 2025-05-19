@@ -95,9 +95,11 @@ The format is
 
 ## Software
 
-| Library                                                | Description                   | Usage                                     |
-| ------------------------------------------------------ | ----------------------------- | ----------------------------------------- |
-| [embassy-stm32](https://github.com/embassy-rs/embassy) | Async Rust embedded framework | Used for interacting with the peripherals |
+| Library                                                | Description                                     | Usage                                     |
+| ------------------------------------------------------ | ----------------------------------------------- | ----------------------------------------- |
+| [embassy-stm32](https://github.com/embassy-rs/embassy) | Async Rust embedded framework                   | Used for interacting with the peripherals |
+| [bytemuck](https://crates.io/crates/bytemuck)          | A crate for mucking around with piles of bytes. | Used for safe casting                     |
+| [libm](https://crates.io/crates/libm)                  | A Rust implementations of the C math library.   | Used in the computations in filtering     |
 
 ## Links
 
