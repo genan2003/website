@@ -60,7 +60,7 @@ After several attempts using only a slow low-pass filter and a tuned Kalman filt
 
 ## Hardware
 
-![Hardware](Hardware.webp)
+![Hardware](InitialHardware.webp)
 
 - **NUCLEO-STM32F767ZI** will serve as the main computational and signal processing unit, and will also function as a transmitter to the computer.
 - **MAX4466** will act as the sensor from which audio signals will be received.
