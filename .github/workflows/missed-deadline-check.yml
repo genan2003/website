@@ -1,4 +1,4 @@
-name: Check missed-deadline label
+name: Check PR Label
 
 on:
   push:
@@ -13,38 +13,37 @@ on:
 
 jobs:
   check-label:
-    name: Check for missed-deadline label
+    name: Check for forbidden label
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Get the Pull Request label
+      - name: Get PR labels
         id: get-labels
         uses: actions/github-script@v7
         with:
           script: |
-            const LABEL = 'missed-deadline'
+            const FORBIDDEN_LABEL = 'your-label-here'; // 👈 Change this to your label
 
             let prNumber;
+
             if (context.eventName === 'workflow_dispatch') {
-                      prNumber = Number(context.payload.inputs.pr_number);
-            } else if (context.eventName ==== 'push') {
-                      const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                      
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        commit_sha: context.sha,
-            
+              prNumber = Number(context.payload.inputs.pr_number);
+            } else if (context.eventName === 'push') {
+              const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: context.sha,
               });
               if (prs.length === 0) {
-                  console.log(`No open Pull Request found for commit ${context.sha}. Skipping label check.`);
-                  return;
+                console.log(`ℹ️ No open PR found for commit ${context.sha}. Skipping label check.`);
+                return;
               }
               prNumber = prs[0].number;
-              console.log(`Found Pull Request #${prNumber} for commit ${context.sha}`);
+              console.log(`Found PR #${prNumber} for commit ${context.sha}`);
             } else {
               prNumber = context.payload.pull_request.number;
             }
-            
+
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -52,11 +51,13 @@ jobs:
             });
 
             const labels = pr.labels.map(l => l.name);
-            console.log(`Pull Request #${prNumber} labels: ${labels.join(', ') || '(none)'}`);
+            console.log(`PR #${prNumber} labels: ${labels.join(', ') || '(none)'}`);
 
-            const hasLabel = labels.includes(LABEL);
+            const hasLabel = labels.includes(FORBIDDEN_LABEL);
             core.setOutput('has_label', hasLabel.toString());
 
-            if(hasLabel) {
-              core.setFailed(`Pull Request #${prNumber} has the "${LABEL}". The Pull Request will not be merged.`);
-          }
+            if (hasLabel) {
+              core.setFailed(`❌ PR #${prNumber} has the forbidden label "${FORBIDDEN_LABEL}". Remove it before merging.`);
+            } else {
+              console.log(`✅ PR #${prNumber} does not have the forbidden label "${FORBIDDEN_LABEL}".`);
+            }
