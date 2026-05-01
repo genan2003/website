@@ -22,7 +22,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const FORBIDDEN_LABEL = 'your-label-here'; // 👈 Change this to your label
+            const FORBIDDEN_LABEL = 'missed-deadline';
 
             let prNumber;
 
